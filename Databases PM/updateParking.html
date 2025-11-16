@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Citations - Parking Management</title>
+    <title>Update Parking Zone - Parking Management</title>
     <style>
         * {
             margin: 0;
@@ -68,7 +68,7 @@
             padding: 40px 20px;
         }
         
-        .citations-container {
+        .zone-container {
             background-color: white;
             border-radius: 12px;
             width: 100%;
@@ -77,21 +77,14 @@
             text-align: center;
         }
         
-        .citations-container h2 {
+        .zone-container h2 {
             margin-bottom: 30px;
             color: #2c3e50;
             font-weight: 500;
         }
         
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        
-        .citation-btn {
-            padding: 15px;
+        .view-zone-btn {
+            padding: 15px 30px;
             background-color: #2c3e50;
             color: white;
             border: none;
@@ -100,22 +93,23 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin-bottom: 30px;
         }
         
-        .citation-btn:hover {
+        .view-zone-btn:hover {
             background-color: #34495e;
             transform: translateY(-2px);
         }
         
         /* Table Styles */
-        .citations-table {
+        .zone-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .citations-table th {
+        .zone-table th {
             background-color: #34495e;
             color: white;
             padding: 15px;
@@ -123,29 +117,35 @@
             font-weight: 600;
         }
         
-        .citations-table td {
+        .zone-table td {
             padding: 12px 15px;
             border-bottom: 1px solid #ddd;
             text-align: left;
         }
         
-        .citations-table tr:hover {
+        .zone-table tr:hover {
             background-color: #f5f5f5;
         }
         
-        .citations-table tr:last-child td {
+        .zone-table tr:last-child td {
             border-bottom: none;
         }
         
-        .amount {
-            font-weight: 600;
-            color: #e74c3c;
+        .add-edit-btn {
+            padding: 8px 16px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .no-citations {
-            padding: 40px;
-            color: #7f8c8d;
-            font-style: italic;
+        .add-edit-btn:hover {
+            background-color: #34495e;
+            transform: translateY(-1px);
         }
         
         /* Footer Styles */
@@ -201,12 +201,7 @@
                 margin-left: 0;
             }
             
-            .button-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .citations-table {
+            .zone-table {
                 display: block;
                 overflow-x: auto;
             }
@@ -228,9 +223,19 @@
                 align-items: flex-start;
             }
             
-            .citations-table th,
-            .citations-table td {
+            .zone-table th,
+            .zone-table td {
                 padding: 8px 10px;
+                font-size: 14px;
+            }
+            
+            .add-edit-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .view-zone-btn {
+                padding: 12px 24px;
                 font-size: 14px;
             }
         }
@@ -254,47 +259,44 @@
     </header>
     
     <div class="main-content">
-        <div class="citations-container">
-            <h2>Your Citations</h2>
+        <div class="zone-container">
+            <h2>Update Parking Zone</h2>
             
-            <div class="button-grid">
-                <button class="citation-btn" onclick="appealCitation()">Appeal Citation</button>
-                <button class="citation-btn" onclick="payCitation()">Pay Citation</button>
-            </div>
+            <button class="view-zone-btn" onclick="viewCurrentZone()">View Current Parking Zone</button>
             
-            <table class="citations-table">
+            <table class="zone-table">
                 <thead>
                     <tr>
-                        <th>Citation Number (#)</th>
-                        <th>Date</th>
-                        <th>Reason</th>
-                        <th>Amount</th>
+                        <th>Permit</th>
+                        <th>Parking Zone</th>
+                        <th>Valid Vehicles</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>CT-2023-001</td>
-                        <td>2023-10-15</td>
-                        <td>Expired Parking Meter</td>
-                        <td class="amount">$45.00</td>
+                        <td>Student Parking</td>
+                        <td>Zone A - North Campus</td>
+                        <td>2 vehicles registered</td>
+                        <td><button class="add-edit-btn" onclick="manageZone('student')">Add/Edit</button></td>
                     </tr>
                     <tr>
-                        <td>CT-2023-002</td>
-                        <td>2023-11-02</td>
-                        <td>No Parking Permit Displayed</td>
-                        <td class="amount">$75.00</td>
+                        <td>Faculty Parking</td>
+                        <td>Zone B - South Campus</td>
+                        <td>1 vehicle registered</td>
+                        <td><button class="add-edit-btn" onclick="manageZone('faculty')">Add/Edit</button></td>
                     </tr>
                     <tr>
-                        <td>CT-2023-003</td>
-                        <td>2023-11-20</td>
-                        <td>Parked in Handicap Zone</td>
-                        <td class="amount">$250.00</td>
+                        <td>Visitor Parking</td>
+                        <td>Zone C - Main Entrance</td>
+                        <td>No vehicles registered</td>
+                        <td><button class="add-edit-btn" onclick="manageZone('visitor')">Add/Edit</button></td>
                     </tr>
                     <tr>
-                        <td>CT-2023-004</td>
-                        <td>2023-12-05</td>
-                        <td>Overtime Parking</td>
-                        <td class="amount">$35.00</td>
+                        <td>Handicap Parking</td>
+                        <td>Zone D - All Lots</td>
+                        <td>1 vehicle registered</td>
+                        <td><button class="add-edit-btn" onclick="manageZone('handicap')">Add/Edit</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -316,24 +318,31 @@
     </footer>
 
     <script>
-        function appealCitation() {
-            alert('Opening citation appeal form...');
-            // Example redirect:
-            // window.location.href = 'appeal-citation.html';
+        function viewCurrentZone() {
+            // In a real application, this would display current parking zone information
+            alert('Displaying current parking zone information...\n\nThis would show:\n- Current assigned parking zones\n- Zone restrictions and hours\n- Available parking spots');
         }
 
-        function payCitation() {
-            alert('Redirecting to payment page...');
+        function manageZone(permitType) {
+            // In a real application, this would open a form to manage parking zones
+            alert(`Managing parking zone for: ${permitType}\n\nThis would open a form to:\n- Change assigned parking zone\n- Update vehicle permissions\n- Modify zone restrictions`);
             // Example redirect:
-            // window.location.href = 'pay-citation.html';
+            // window.location.href = 'manage-zone.html?type=' + permitType;
         }
 
+        // You can add functionality to handle different scenarios
         document.addEventListener('DOMContentLoaded', function() {
-            const tableRows = document.querySelectorAll('.citations-table tbody tr');
-            tableRows.forEach(row => {
-                row.addEventListener('click', function() {
-                    const citationNumber = this.cells[0].textContent;
-                    console.log('Selected citation:', citationNumber);
+            const buttons = document.querySelectorAll('.add-edit-btn');
+            buttons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    const row = this.closest('tr');
+                    const permitType = row.cells[0].textContent;
+                    const currentZone = row.cells[1].textContent;
+                    const vehicles = row.cells[2].textContent;
+                    
+                    console.log('Managing zone for:', permitType);
+                    console.log('Current zone:', currentZone);
+                    console.log('Vehicle status:', vehicles);
                 });
             });
         });
