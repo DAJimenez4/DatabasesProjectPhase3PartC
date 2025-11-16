@@ -244,10 +244,10 @@
             </div>
             
             <ul class="nav-links">
-                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Dashboard</a></li>
                 <li><a href="#">Parking Map</a></li>
                 <li><a href="#">Rates</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="#">Account Information</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </div>
@@ -255,11 +255,11 @@
     
     <div class="main-content">
         <div class="citations-container">
-            <h2>Your Citations</h2>
+            <h2>Your Citation(s)</h2>
             
             <div class="button-grid">
-                <button class="citation-btn" onclick="appealCitation()">Appeal Citation</button>
-                <button class="citation-btn" onclick="payCitation()">Pay Citation</button>
+                <button class="citation-btn">Appeal Citation(s)</button>
+                <button class="citation-btn">Pay Citation(s)</button>
             </div>
             
             <table class="citations-table">
@@ -273,26 +273,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>CT-2023-001</td>
-                        <td>2023-10-15</td>
-                        <td>Expired Parking Meter</td>
-                        <td class="amount">$45.00</td>
-                    </tr>
-                    <tr>
-                        <td>CT-2023-002</td>
-                        <td>2023-11-02</td>
-                        <td>No Parking Permit Displayed</td>
-                        <td class="amount">$75.00</td>
-                    </tr>
-                    <tr>
                         <td>CT-2023-003</td>
-                        <td>2023-11-20</td>
+                        <td>2025-10-25</td>
                         <td>Parked in Handicap Zone</td>
                         <td class="amount">$250.00</td>
                     </tr>
                     <tr>
                         <td>CT-2023-004</td>
-                        <td>2023-12-05</td>
+                        <td>2025-11-15</td>
                         <td>Overtime Parking</td>
                         <td class="amount">$35.00</td>
                     </tr>
@@ -314,33 +302,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        function appealCitation() {
-            // In a real application, this would open the appeal form
-            alert('Opening citation appeal form...');
-            // Example redirect:
-            // window.location.href = 'appeal-citation.html';
-        }
-
-        function payCitation() {
-            // In a real application, this would open the payment page
-            alert('Redirecting to payment page...');
-            // Example redirect:
-            // window.location.href = 'pay-citation.html';
-        }
-
-        // You can add functionality to handle row clicks if needed
-        document.addEventListener('DOMContentLoaded', function() {
-            const tableRows = document.querySelectorAll('.citations-table tbody tr');
-            tableRows.forEach(row => {
-                row.addEventListener('click', function() {
-                    // Add row selection functionality here
-                    const citationNumber = this.cells[0].textContent;
-                    console.log('Selected citation:', citationNumber);
-                });
-            });
-        });
-    </script>
 </body>
 </html>
