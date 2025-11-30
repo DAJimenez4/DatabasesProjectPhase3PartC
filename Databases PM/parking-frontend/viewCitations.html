@@ -247,8 +247,8 @@
                 <li><a href="#">FAQ</a></li>
                 <li><a href="#">Parking Map</a></li>
                 <li><a href="#">Rates</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="userDashboard.html">Dashboard</a></li>
+                <li><a href="main.html">Logout</a></li>
             </ul>
         </div>
     </header>
@@ -338,5 +338,48 @@
             });
         });
     </script>
+
+    <script>
+    // Navigation configuration
+    const pageMap = {
+        'dashboard': 'userDashboard.html',
+        'login': 'main.html',
+        'view-citations': 'viewCitations.html',
+        'pay-citation': 'viewCitations.html',
+        'add-vehicle': 'addVehicle.html',
+        'update-parkingzone': 'updateParking.html'
+    };
+
+    // Navigation function
+    function navigateTo(page) {
+        if (pageMap[page]) {
+            window.location.href = pageMap[page];
+        } else {
+            console.error('Unknown page:', page);
+        }
+    }
+
+    // Set up navigation links
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dashboard link
+        const dashboardLink = document.getElementById('dashboard-link');
+        if (dashboardLink) {
+            dashboardLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateTo('dashboard');
+            });
+        }
+
+        // Logout link
+        const logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateTo('login');
+            });
+        }
+    });
+    </script>
+
 </body>
 </html>

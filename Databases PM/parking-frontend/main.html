@@ -182,7 +182,7 @@
                 <li><a href="#">FAQ</a></li>
                 <li><a href="#">Parking Map</a></li>
                 <li><a href="#">Rates</a></li>
-                <li><a href="#">Login / Create Account</a></li>
+                <li><a href="signUp.html">Create Account</a></li>
             </ul>
         </div>
     </header>
@@ -228,6 +228,39 @@
             </div>
         </div>
     </footer>
+
+    <script>
+    // Navigation configuration
+    const pageMap = {
+        'dashboard': 'userDashboard.html',
+        'login': 'main.html',
+        'view-citations': 'viewCitations.html',
+        'pay-citation': 'viewCitations.html',
+        'add-vehicle': 'addVehicle.html',
+        'update-parkingzone': 'updateParking.html'
+    };
+
+    // Navigation function
+    function navigateTo(page) {
+        if (pageMap[page]) {
+            window.location.href = pageMap[page];
+        } else {
+            console.error('Unknown page:', page);
+        }
+    }
+
+    // Set up navigation links - for login page, we only need logout functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // If there's a logout link on login page
+        const logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                navigateTo('login');
+            });
+        }
+    });
+    </script>
 
 </body>
 </html>
