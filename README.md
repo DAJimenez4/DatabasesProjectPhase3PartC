@@ -1,11 +1,9 @@
 # Parking Management System
 
-This is a full-stack Parking Management System with a Node.js/Express backend, a MySQL database, and an HTML/CSS/JavaScript frontend.
-
 ## Prerequisites
 
-*   **Node.js** (v14 or higher)
-*   **MySQL Server** (v8.0 recommended)
+*   **Node.js**
+*   **MySQL Server**
 
 ## Setup Instructions
 
