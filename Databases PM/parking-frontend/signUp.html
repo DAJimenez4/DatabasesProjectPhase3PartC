@@ -5,170 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Parking Management</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: blueviolet;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: orange;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 0 20px;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 70px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: darkgray;
-            font-weight: 500;
-            font-size: 16px;
-            padding: 5px 0;
-            position: relative;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-        }
-
-        .signup-container {
-            background-color: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 420px;
-            padding: 40px 30px;
-        }
-
-        .signup-form h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: darkgray;
-            font-weight: 500;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: gray;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .signup-btn {
-            width: 100%;
-            padding: 14px;
-            background-color: darkgray;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 14px;
-            color: gray;
-        }
-
-        .form-footer a {
-            color: lightblue;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: darkgray;
-            color: white;
-            padding: 30px 20px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .contact-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: nowrap;
-        }
-
-        .contact-label {
-            font-weight: 600;
-            color: whitesmoke;
-            font-size: 16px;
-        }
-
-        .contact-value {
-            color: silver;
-            font-size: 15px;
-        }
+        /* No page-specific overrides needed - all styles in styles.css */
     </style>
 </head>
 
@@ -208,9 +47,7 @@
 
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <select id="role"
-                        style="width: 100%; padding: 14px 16px; border: 1px solid; border-radius: 8px; font-size: 15px; background-color: white;"
-                        required>
+                    <select id="role" required>
                         <option value="" disabled selected>Select your role</option>
                         <option value="student">Student</option>
                         <option value="staff">Staff</option>
@@ -271,12 +108,10 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            // Reset error messages
             document.getElementById('uid-error').style.display = 'none';
             document.getElementById('email-error').style.display = 'none';
             document.getElementById('password-error').style.display = 'none';
 
-            // Basic client-side validation
             let isValid = true;
 
             if (firstName.trim() === '' || lastName.trim() === '' || role.trim() === '') {
@@ -305,14 +140,12 @@
 
             if (!isValid) return;
 
-            // Show loading state
             const submitBtn = document.querySelector('.signup-btn');
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Creating Account...';
             submitBtn.disabled = true;
 
             try {
-                // Send data to backend (relative path since both are served from same origin)
                 const response = await fetch('http://localhost:3000/api/signup', {
                     method: 'POST',
                     headers: {
@@ -333,9 +166,8 @@
 
                 if (result.success) {
                     alert('Account created successfully! Redirecting to login...');
-                    window.location.href = '/'; // Redirect to main login page
+                    window.location.href = '/';
                 } else {
-                    // Show specific error message from server
                     if (result.message.includes('User ID already exists')) {
                         document.getElementById('uid-error').textContent = result.message;
                         document.getElementById('uid-error').style.display = 'block';
@@ -351,7 +183,6 @@
                 console.error('Error:', error);
                 alert('Network error. Please check if the server is running.');
             } finally {
-                // Reset button state
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }
@@ -359,7 +190,6 @@
     </script>
 
     <script>
-        // Navigation configuration
         const pageMap = {
             'dashboard': '/dashboard',
             'login': '/',
@@ -369,7 +199,6 @@
             'update-parkingzone': '/update-parking'
         };
 
-        // Navigation function
         function navigateTo(page) {
             if (pageMap[page]) {
                 window.location.href = pageMap[page];
@@ -378,9 +207,7 @@
             }
         }
 
-        // Set up navigation links - for login page, we only need logout functionality
         document.addEventListener('DOMContentLoaded', function () {
-            // If there's a logout link on login page
             const logoutLink = document.getElementById('logout-link');
             if (logoutLink) {
                 logoutLink.addEventListener('click', function (e) {

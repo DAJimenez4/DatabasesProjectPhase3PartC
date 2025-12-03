@@ -5,96 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Citation - Parking Admin</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        /* Page specific - centered form layout */
         body {
-            background-color: blueviolet;
-            min-height: 100vh;
-            display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
-        .container {
-            background-color: white;
+        .add-container {
+            background-color: var(--bg-card);
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px var(--shadow-card);
             width: 100%;
             max-width: 500px;
         }
 
-        h2 {
+        .add-container h2 {
             margin-bottom: 1.5rem;
-            color: darkgray;
+            color: var(--text-dark);
             text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: darkgray;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid lightgray;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: darkgray;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1rem;
-            transition: background-color 0.3s;
-        }
-
-        .submit-btn:hover {
-            background-color: gray;
         }
 
         .back-link {
             display: block;
             text-align: center;
             margin-top: 1rem;
-            color: darkgray;
+            color: var(--color-link);
             text-decoration: none;
         }
 
-        .error-message {
-            color: red;
-            margin-bottom: 1rem;
-            display: none;
-            text-align: center;
+        .back-link:hover {
+            color: var(--color-link-hover);
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="add-container">
         <h2>Create New Citation</h2>
         <div id="errorMessage" class="error-message"></div>
         <form id="addCitationForm">

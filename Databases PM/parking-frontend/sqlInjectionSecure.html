@@ -5,113 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Search - Secure</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: blueviolet;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: orange;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 0 20px;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 70px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: darkgray;
-            font-weight: 500;
-            font-size: 16px;
-        }
-
+        /* Page specific styles for SQL demo */
         .main-content {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px 20px;
-            gap: 30px;
             flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 30px;
         }
 
-        .search-container {
-            background-color: white;
+        .search-container,
+        .results-container {
+            background-color: var(--bg-card);
             border-radius: 12px;
-            width: 100%;
-            max-width: 420px;
             padding: 40px 30px;
         }
 
-        .search-container h2 {
+        .search-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .results-container {
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .search-container h2,
+        .results-container h2 {
             text-align: center;
             margin-bottom: 25px;
-            color: darkgray;
+            color: var(--text-dark);
             font-weight: 500;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: gray;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid lightgray;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: blueviolet;
         }
 
         .search-btn {
             width: 100%;
             padding: 14px;
-            background-color: darkgray;
-            color: white;
+            background-color: var(--btn-primary-bg);
+            color: var(--text-light);
             border: none;
             border-radius: 8px;
             font-size: 16px;
@@ -122,51 +54,36 @@
         }
 
         .search-btn:hover {
-            background-color: gray;
+            background-color: var(--btn-primary-hover);
         }
 
         .payloads {
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid lightgray;
+            border-top: 1px solid var(--border-color);
         }
 
         .payloads h4 {
-            color: gray;
+            color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 10px;
         }
 
         .payload-btn {
             display: inline-block;
-            background-color: whitesmoke;
+            background-color: var(--text-contrast);
             padding: 6px 12px;
             border-radius: 4px;
             font-family: 'Courier New', monospace;
             font-size: 12px;
-            color: green;
+            color: var(--color-success);
             cursor: pointer;
             margin: 4px;
-            border: 1px solid lightgray;
+            border: 1px solid var(--border-color);
         }
 
         .payload-btn:hover {
-            background-color: lightgray;
-        }
-
-        .results-container {
-            background-color: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 550px;
-            padding: 40px 30px;
-        }
-
-        .results-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: darkgray;
-            font-weight: 500;
+            background-color: var(--border-color);
         }
 
         .results-table {
@@ -178,49 +95,21 @@
         .results-table td {
             padding: 10px;
             text-align: left;
-            border-bottom: 1px solid whitesmoke;
+            border-bottom: 1px solid var(--text-contrast);
             font-size: 14px;
+            color: var(--text-dark);
         }
 
         .results-table th {
-            background-color: darkgray;
-            color: white;
+            background-color: var(--bg-table-header);
+            color: var(--text-light);
             font-weight: 500;
         }
 
         .no-results {
             text-align: center;
-            color: gray;
+            color: var(--text-muted);
             padding: 20px;
-        }
-
-        footer {
-            background-color: darkgray;
-            color: white;
-            padding: 30px 20px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .contact-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: nowrap;
-        }
-
-        .contact-label {
-            font-weight: 600;
-            color: whitesmoke;
-            font-size: 16px;
-        }
-
-        .contact-value {
-            color: silver;
-            font-size: 15px;
         }
     </style>
 </head>

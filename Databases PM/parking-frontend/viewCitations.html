@@ -4,237 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Citations - Parking Management</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: blueviolet;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: orange;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 0 20px;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            height: 70px;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: darkgray;
-            font-weight: 500;
-            font-size: 16px;
-            padding: 5px 0;
-            position: relative;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 40px 20px;
-        }
-
-        .citations-container {
-            background-color: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 900px;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .citations-container h2 {
-            margin-bottom: 30px;
-            color: darkgray;
-            font-weight: 500;
-        }
-
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .citation-btn {
-            padding: 15px;
-            background-color: darkgray;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .citation-btn:hover {
-            background-color: gray;
-            transform: translateY(-2px);
-        }
-
-        /* Table Styles */
-        .citations-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .citations-table th {
-            background-color: gray;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        .citations-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid lightgray;
-            text-align: left;
-        }
-
-        .citations-table tr:hover {
-            background-color: whitesmoke;
-        }
-
-        .citations-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .amount {
-            font-weight: 600;
-            color: red;
-        }
-
-        .no-citations {
-            padding: 40px;
-            color: gray;
-            font-style: italic;
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: darkgray;
-            color: white;
-            padding: 30px 20px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .contact-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: nowrap;
-        }
-
-        .contact-label {
-            font-weight: 600;
-            color: whitesmoke;
-            font-size: 16px;
-        }
-
-        .contact-value {
-            color: silver;
-            font-size: 15px;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                height: auto;
-                padding: 15px 0;
-            }
-
-            .logo-container {
-                margin-bottom: 15px;
-            }
-
-            .nav-links {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .nav-links li {
-                margin-left: 0;
-            }
-
-            .button-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .citations-table {
-                display: block;
-                overflow-x: auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .nav-links li {
-                margin: 5px 10px;
-            }
-
-            .contact-row {
-                flex-direction: column;
-                gap: 10px;
-                align-items: flex-start;
-            }
-
-            .citations-table th,
-            .citations-table td {
-                padding: 8px 10px;
-                font-size: 14px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -255,8 +25,6 @@
         <div class="citations-container">
             <h2>Your Citations</h2>
 
-
-
             <table class="citations-table">
                 <thead>
                     <tr>
@@ -270,50 +38,65 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Rows will be populated here -->
                 </tbody>
-                <script>
-                    document.addEventListener('DOMContentLoaded', async function () {
-                        const user = JSON.parse(localStorage.getItem('user'));
-                        if (!user || !user.uid) {
-                            window.location.href = '/';
-                            return;
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <h2>Contact Us</h2>
+            <div class="contact-row">
+                <div class="contact-label">Email:</div>
+                <div class="contact-value">parking@portal.com</div>
+                <div class="contact-label">Phone:</div>
+                <div class="contact-value">(XXX) XXX-XXX</div>
+                <div class="contact-label">Location:</div>
+                <div class="contact-value">800 W Campbell Rd, Richardson, TX 75080</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.uid) {
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/citations/${user.uid}`);
+                const citations = await response.json();
+
+                const tbody = document.querySelector('.citations-table tbody');
+                tbody.innerHTML = '';
+
+                if (citations.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="7" class="no-citations">No citations found.</td>';
+                    tbody.appendChild(row);
+                } else {
+                    citations.forEach(citation => {
+                        const row = document.createElement('tr');
+                        const isPaid = citation.status === 'Paid';
+                        const isAppealed = citation.status === 'Appealed';
+
+                        let actionBtn;
+                        let statusColor;
+
+                        if (isPaid) {
+                            actionBtn = '<button class="citation-btn" disabled style="background-color: #95a5a6; cursor: not-allowed;">Paid</button>';
+                            statusColor = '#27ae60';
+                        } else if (isAppealed) {
+                            actionBtn = '<button class="citation-btn" disabled style="background-color: #f39c12; cursor: not-allowed;">Appealed</button>';
+                            statusColor = '#f39c12';
+                        } else {
+                            actionBtn = `<button class="citation-btn" onclick="payCitation(${citation.citation_id})" style="background-color: #27ae60; padding: 8px 15px;">Pay</button>`;
+                            statusColor = '#e74c3c';
                         }
 
-                        try {
-                            const response = await fetch(`/api/citations/${user.uid}`);
-                            const citations = await response.json();
-
-                            const tbody = document.querySelector('.citations-table tbody');
-
-                            // Clear existing rows
-                            tbody.innerHTML = '';
-
-                            if (citations.length === 0) {
-                                const row = document.createElement('tr');
-                                row.innerHTML = '<td colspan="7" class="no-citations">No citations found.</td>';
-                                tbody.appendChild(row);
-                            } else {
-                                citations.forEach(citation => {
-                                    const row = document.createElement('tr');
-                                    const isPaid = citation.status === 'Paid';
-                                    const isAppealed = citation.status === 'Appealed';
-
-                                    let actionBtn;
-                                    let statusColor;
-
-                                    if (isPaid) {
-                                        actionBtn = '<button class="citation-btn" disabled style="background-color: darkgray; cursor: not-allowed;">Paid</button>';
-                                        statusColor = 'green';
-                                    } else if (isAppealed) {
-                                        actionBtn = '<button class="citation-btn" disabled style="background-color: orange; cursor: not-allowed;">Appealed</button>';
-                                        statusColor = 'orange';
-                                    } else {
-                                        actionBtn = `<button class="citation-btn" onclick="payCitation(${citation.citation_id})" style="background-color: green; padding: 8px 15px;">Pay</button>`;
-                                        statusColor = 'red';
-                                    }
-
-                                    row.innerHTML = `
+                        row.innerHTML = `
                             <td>${citation.citation_number}</td>
                             <td>${new Date(citation.citation_date).toLocaleDateString()}</td>
                             <td>${citation.reason}</td>
@@ -322,76 +105,34 @@
                             <td style="color: ${statusColor}; font-weight: bold;">${citation.status}</td>
                             <td>${actionBtn}</td>
                         `;
-                                    tbody.appendChild(row);
-                                });
-                            }
-                        } catch (error) {
-                            console.error('Error fetching citations:', error);
-                        }
+                        tbody.appendChild(row);
                     });
+                }
+            } catch (error) {
+                console.error('Error fetching citations:', error);
+            }
+        });
 
-                    async function payCitation(id) {
-                        if (!confirm('Are you sure you want to pay this citation?')) return;
+        async function payCitation(id) {
+            if (!confirm('Are you sure you want to pay this citation?')) return;
 
-                        try {
-                            const response = await fetch(`/api/citations/${id}/pay`, {
-                                method: 'POST'
-                            });
-                            const data = await response.json();
+            try {
+                const response = await fetch(`/api/citations/${id}/pay`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
 
-                            if (data.success) {
-                                alert('Citation paid successfully!');
-                                location.reload();
-                            } else {
-                                alert('Failed to pay citation');
-                            }
-                        } catch (error) {
-                            console.error('Error paying citation:', error);
-                            alert('Error paying citation');
-                        }
-                    }
-                </script>
-
-                <script>
-                    // Navigation configuration
-                    const pageMap = {
-                        'dashboard': '/dashboard',
-                        'login': '/',
-                        'view-citations': '/citations',
-                        'pay-citation': '/citations',
-                        'add-vehicle': '/add-vehicle',
-                        'update-parkingzone': '/update-parking'
-                    };
-
-                    // Navigation function
-                    function navigateTo(page) {
-                        if (pageMap[page]) {
-                            window.location.href = pageMap[page];
-                        } else {
-                            console.error('Unknown page:', page);
-                        }
-                    }
-
-                    // Set up navigation links
-                    document.addEventListener('DOMContentLoaded', function () {
-                        // Dashboard link
-                        const dashboardLink = document.getElementById('dashboard-link');
-                        if (dashboardLink) {
-                            dashboardLink.addEventListener('click', function (e) {
-                                e.preventDefault();
-                                navigateTo('dashboard');
-                            });
-                        }
-
-                        // Logout link
-                        const logoutLink = document.getElementById('logout-link');
-                        if (logoutLink) {
-                            logoutLink.addEventListener('click', function (e) {
-                                e.preventDefault();
-                                navigateTo('login');
-                            });
-                        }
-                    });
-                </script>
+                if (data.success) {
+                    alert('Citation paid successfully!');
+                    location.reload();
+                } else {
+                    alert('Failed to pay citation');
+                }
+            } catch (error) {
+                console.error('Error paying citation:', error);
+                alert('Error paying citation');
+            }
+        }
+    </script>
 </body>
 </html>
