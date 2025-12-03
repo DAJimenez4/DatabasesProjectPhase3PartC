@@ -187,7 +187,7 @@ app.post('/api/admin/login', async (req, res) => {
         if (!uid || !password) {
             return res.status(400).json({
                 success: false,
-                message: 'Employee ID and password are required'
+                message: 'Admin ID and password are required'
             });
         }
 
@@ -202,7 +202,7 @@ app.post('/api/admin/login', async (req, res) => {
         if (!user) {
             return res.status(401).json({
                 success: false,
-                message: 'Invalid Employee ID or password'
+                message: 'Invalid Admin ID or password'
             });
         }
 
@@ -212,22 +212,22 @@ app.post('/api/admin/login', async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({
                 success: false,
-                message: 'Invalid Employee ID or password'
+                message: 'Invalid Admin ID or password'
             });
         }
 
-        // Check if user has admin/employee role
+        // Check if user has admin role
         const adminRoles = ['admin', 'employee', 'staff', 'faculty'];
         if (!adminRoles.includes(user.role.toLowerCase())) {
             return res.status(403).json({
                 success: false,
-                message: 'Access denied. Employee credentials required.'
+                message: 'Access denied. Admin credentials required.'
             });
         }
 
         res.json({
             success: true,
-            message: 'Employee login successful',
+            message: 'Admin login successful',
             user: {
                 user_id: user.user_id,
                 uid: user.uid,
@@ -475,7 +475,24 @@ app.post('/api/citations', async (req, res) => {
         }
         const vehicle_id = vehicleRows[0].vehicle_id;
 
-        const citation_number = `CIT-${Date.now().toString().slice(-8)}`;
+        const currentYear = new Date().getFullYear();
+        const prefix = `CIT-${currentYear}-`;
+
+        const [rows] = await pool.execute(
+            'SELECT citation_number FROM Citations WHERE citation_number LIKE ? ORDER BY citation_number DESC LIMIT 1',
+            [`${prefix}%`]
+        );
+
+        let nextSequence = 1;
+        if (rows.length > 0) {
+            const lastNumber = rows[0].citation_number;
+            const lastSequence = parseInt(lastNumber.split('-')[2], 10);
+            if (!isNaN(lastSequence)) {
+                nextSequence = lastSequence + 1;
+            }
+        }
+
+        const citation_number = `${prefix}${nextSequence.toString().padStart(3, '0')}`;
 
         await pool.execute(
             'INSERT INTO Citations (citation_number, citation_date, reason, amount, status, vehicle_id) VALUES (?, ?, ?, ?, ?, ?)',

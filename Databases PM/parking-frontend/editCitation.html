@@ -99,73 +99,64 @@
         <h2>Edit Citation</h2>
         <div id="errorMessage" class="error-message"></div>
         <form id="editCitationForm">
-            <input type="hidden" id="citationId">
             <div class="form-group">
-                <label for="citationNumber">Citation Number</label>
-                <input type="text" id="citationNumber" disabled style="background-color: #f0f0f0;">
+                <label>Citation Number</label>
+                <input type="text" id="citation_number" disabled style="background-color: #f8f9fa;">
             </div>
+
             <div class="form-group">
-                <label for="licensePlate">License Plate</label>
-                <input type="text" id="licensePlate" disabled style="background-color: #f0f0f0;">
+                <label>License Plate</label>
+                <input type="text" id="license_plate" disabled style="background-color: #f8f9fa;">
             </div>
+
             <div class="form-group">
-                <label for="citationDate">Date</label>
-                <input type="date" id="citationDate" required>
+                <label for="citation_date">Date</label>
+                <input type="date" id="citation_date" required>
             </div>
+
             <div class="form-group">
                 <label for="reason">Reason</label>
                 <input type="text" id="reason" required>
             </div>
+
             <div class="form-group">
                 <label for="amount">Amount ($)</label>
-                <input type="number" id="amount" step="0.01" required>
+                <input type="number" id="amount" step="0.01" min="0" required>
             </div>
+
             <div class="form-group">
                 <label for="status">Status</label>
                 <select id="status">
                     <option value="Unpaid">Unpaid</option>
                     <option value="Paid">Paid</option>
-                    <option value="Appealed">Appealed</option>
                 </select>
             </div>
+
             <button type="submit" class="submit-btn">Update Citation</button>
+            <a href="/admin-dashboard" class="back-link">Cancel</a>
         </form>
-        <a href="/admin-dashboard" class="back-link">Back to Dashboard</a>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async function () {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user || user.role !== 'admin') {
-                window.location.href = '/';
-                return;
-            }
+        const urlParams = new URLSearchParams(window.location.search);
+        const citationId = urlParams.get('id');
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const citationId = urlParams.get('id');
-
+        document.addEventListener('DOMContentLoaded', async () => {
             if (!citationId) {
                 alert('No citation ID provided');
                 window.location.href = '/admin-dashboard';
                 return;
             }
 
-            document.getElementById('citationId').value = citationId;
-            await loadCitationDetails(citationId);
-        });
-
-        async function loadCitationDetails(id) {
             try {
-                // Since we don't have a single citation endpoint, we'll fetch all and find it.
-                // In a real app, we should have a specific endpoint.
                 const response = await fetch('/api/all-citations');
                 const citations = await response.json();
-                const citation = citations.find(c => c.citation_id == id);
+                const citation = citations.find(c => c.citation_id == citationId);
 
                 if (citation) {
-                    document.getElementById('citationNumber').value = citation.citation_number;
-                    document.getElementById('licensePlate').value = citation.license_plate;
-                    document.getElementById('citationDate').value = new Date(citation.citation_date).toISOString().split('T')[0];
+                    document.getElementById('citation_number').value = citation.citation_number;
+                    document.getElementById('license_plate').value = citation.license_plate;
+                    document.getElementById('citation_date').value = new Date(citation.citation_date).toISOString().split('T')[0];
                     document.getElementById('reason').value = citation.reason;
                     document.getElementById('amount').value = citation.amount;
                     document.getElementById('status').value = citation.status;
@@ -174,20 +165,19 @@
                     window.location.href = '/admin-dashboard';
                 }
             } catch (error) {
-                console.error('Error loading citation:', error);
-                alert('Error loading citation details');
+                console.error('Error fetching citation:', error);
             }
-        }
+        });
 
-        document.getElementById('editCitationForm').addEventListener('submit', async function (e) {
+        document.getElementById('editCitationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const citationId = document.getElementById('citationId').value;
-            const citationDate = document.getElementById('citationDate').value;
-            const reason = document.getElementById('reason').value;
-            const amount = document.getElementById('amount').value;
-            const status = document.getElementById('status').value;
-            const errorDiv = document.getElementById('errorMessage');
+            const citationData = {
+                citation_date: document.getElementById('citation_date').value,
+                reason: document.getElementById('reason').value,
+                amount: document.getElementById('amount').value,
+                status: document.getElementById('status').value
+            };
 
             try {
                 const response = await fetch(`/api/citations/${citationId}`, {
@@ -195,27 +185,22 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        citation_date: citationDate,
-                        reason: reason,
-                        amount: amount,
-                        status: status
-                    })
+                    body: JSON.stringify(citationData)
                 });
 
-                const data = await response.json();
+                const result = await response.json();
 
-                if (data.success) {
+                if (result.success) {
                     alert('Citation updated successfully!');
                     window.location.href = '/admin-dashboard';
                 } else {
-                    errorDiv.textContent = data.message || 'Failed to update citation';
+                    const errorDiv = document.getElementById('errorMessage');
+                    errorDiv.textContent = result.message || 'Failed to update citation';
                     errorDiv.style.display = 'block';
                 }
             } catch (error) {
                 console.error('Error:', error);
-                errorDiv.textContent = 'An error occurred';
-                errorDiv.style.display = 'block';
+                alert('An error occurred while updating the citation');
             }
         });
     </script>
