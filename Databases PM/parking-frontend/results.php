@@ -25,10 +25,10 @@ foreach ($users as $line) {
     $f = explode("\t", $line);
 
     // Expected positions:
-    // 0 = uid
+    // 4 = uid
     // 5 = password
 
-    $db_uid = $f[0] ?? "";
+    $db_uid = $f[4] ?? "";
     $db_pass = $f[5] ?? "";
 
     // Vulnerable logic:
@@ -49,7 +49,7 @@ echo "<h2>Search Results</h2>";
 if ($found) {
     echo "<p><strong>Name:</strong> {$found[1]} {$found[2]}</p>";
     echo "<p><strong>Email:</strong> {$found[3]}</p>";
-    echo "<p><strong>U_ID:</strong> {$found[0]}</p>";
+    echo "<p><strong>U_ID:</strong> {$found[4]}</p>";
     echo "<p><strong>Role:</strong> {$found[6]}</p>";
 } else {
     echo "<p style='color:red;'>No matching user found.</p>";
