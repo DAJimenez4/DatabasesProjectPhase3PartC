@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Vehicle - Parking Management</title>
+    <title>Purchase Permit - Parking Management</title>
     <style>
         * {
             margin: 0;
@@ -94,12 +95,13 @@
             font-weight: 500;
         }
 
-        .form-group input {
+        .form-group select {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
+            background-color: white;
         }
 
         .submit-btn {
@@ -216,27 +218,21 @@
 
     <div class="main-content">
         <div class="form-container">
-            <h2>Add New Vehicle</h2>
+            <h2>Purchase Permit</h2>
 
-            <form id="addVehicleForm">
-                <div class="form-group">
-                    <label for="licensePlate">License Plate</label>
-                    <input type="text" id="licensePlate" required placeholder="e.g. ABC-1234">
-                </div>
+            <form id="addPermitForm">
+
 
                 <div class="form-group">
-                    <label for="model">Vehicle Model</label>
-                    <input type="text" id="model" required placeholder="e.g. Toyota Camry">
-                </div>
-
-                <div class="form-group">
-                    <label for="color">Color</label>
-                    <input type="text" id="color" required placeholder="e.g. Silver">
+                    <label for="gradeSelect">Select Permit Grade</label>
+                    <select id="gradeSelect" required>
+                        <option value="">Loading grades...</option>
+                    </select>
                 </div>
 
                 <div class="error-message" id="errorMessage"></div>
 
-                <button type="submit" class="submit-btn">Add Vehicle</button>
+                <button type="submit" class="submit-btn">Purchase Permit</button>
             </form>
         </div>
     </div>
@@ -256,44 +252,68 @@
     </footer>
 
     <script>
-        document.getElementById('addVehicleForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-
+        document.addEventListener('DOMContentLoaded', async function () {
             const user = JSON.parse(localStorage.getItem('user'));
             if (!user || !user.uid) {
                 window.location.href = '/';
                 return;
             }
 
-            const licensePlate = document.getElementById('licensePlate').value;
-            const model = document.getElementById('model').value;
-            const color = document.getElementById('color').value;
+            const gradeSelect = document.getElementById('gradeSelect');
+
+            // Fetch Permit Grades
+            try {
+                const response = await fetch('/api/permit-grades');
+                const grades = await response.json();
+
+                gradeSelect.innerHTML = '<option value="">-- Select Grade --</option>';
+                grades.forEach(grade => {
+                    const option = document.createElement('option');
+                    option.value = grade.grade_id;
+                    option.text = `${grade.grade_name} - $${grade.grade_price}`;
+                    gradeSelect.add(option);
+                });
+            } catch (error) {
+                console.error('Error fetching grades:', error);
+                gradeSelect.innerHTML = '<option value="">Error loading grades</option>';
+            }
+        });
+
+        document.getElementById('addPermitForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            const gradeId = document.getElementById('gradeSelect').value;
             const errorDiv = document.getElementById('errorMessage');
             const submitBtn = document.querySelector('.submit-btn');
 
+            if (!gradeId) {
+                errorDiv.textContent = 'Please select a permit grade.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
             errorDiv.style.display = 'none';
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Adding...';
+            submitBtn.textContent = 'Purchasing...';
 
             try {
-                const response = await fetch('/api/vehicles', {
+                const response = await fetch('/api/permits', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         uid: user.uid,
-                        license_plate: licensePlate,
-                        model: model,
-                        color: color
+                        grade_id: gradeId
                     })
                 });
 
                 const result = await response.json();
 
                 if (result.success) {
-                    alert('Vehicle added successfully!');
-                    window.location.href = '/vehicles';
+                    alert('Permit purchased successfully!');
+                    window.location.href = '/permits';
                 } else {
                     errorDiv.textContent = result.message;
                     errorDiv.style.display = 'block';
@@ -304,9 +324,10 @@
                 errorDiv.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Add Vehicle';
+                submitBtn.textContent = 'Purchase Permit';
             }
         });
     </script>
 </body>
+
 </html>
