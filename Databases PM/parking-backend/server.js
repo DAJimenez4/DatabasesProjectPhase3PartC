@@ -565,6 +565,59 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'Server is running', timestamp: new Date().toISOString() });
 });
 
+app.get('/api/sql-injection/vulnerable/search', async (req, res) => {
+    const lastName = req.query.lastName || '';
+    
+    try {
+        const vulnerableQuery = `SELECT user_id, uid, email, first_name, last_name, phone_number, role FROM Users WHERE last_name = '${lastName}'`;
+        
+        const connection = await pool.getConnection();
+        const [rows] = await connection.query(vulnerableQuery);
+        connection.release();
+        
+        res.json({ 
+            users: rows,
+            queryExecuted: vulnerableQuery,
+            warning: 'This query is VULNERABLE to SQL injection!'
+        });
+        
+    } catch (error) {
+        console.error('SQL Injection Demo Error:', error);
+        res.status(500).json({ 
+            error: error.message,
+            sqlState: error.sqlState,
+            warning: 'Query failed - possibly due to SQL injection syntax error'
+        });
+    }
+});
+
+app.get('/api/sql-injection/secure/search', async (req, res) => {
+    const lastName = req.query.lastName || '';
+    
+    try {
+        const secureQuery = 'SELECT user_id, uid, email, first_name, last_name, phone_number, role FROM Users WHERE last_name = ?';
+        const [rows] = await pool.execute(secureQuery, [lastName]);
+        
+        res.json({ 
+            users: rows,
+            queryPattern: secureQuery,
+            parameterValue: lastName,
+            message: 'This query is PROTECTED against SQL injection using prepared statements!'
+        });
+        
+    } catch (error) {
+        console.error('Secure Search Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+app.get('/sql-injection-vulnerable', (req, res) => {
+    res.sendFile(path.join(__dirname, '../parking-frontend/sqlInjectionVulnerable.html'));
+});
+
+app.get('/sql-injection-secure', (req, res) => {
+    res.sendFile(path.join(__dirname, '../parking-frontend/sqlInjectionSecure.html'));
+});
+
 app.post('/api/citations/:id/pay', async (req, res) => {
     const { id } = req.params;
     try {

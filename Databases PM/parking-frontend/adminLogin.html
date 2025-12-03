@@ -122,7 +122,6 @@
             width: 100%;
             padding: 14px;
             background-color: #e74c3c;
-            /* Red color for admin login */
             color: white;
             border: none;
             border-radius: 8px;
@@ -326,14 +325,12 @@
 
             if (!isValid) return;
 
-            // Show loading state
             const submitBtn = document.querySelector('.login-btn');
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Authenticating...';
             submitBtn.disabled = true;
 
             try {
-                // Send login request to backend
                 const response = await fetch('/api/admin/login', {
                     method: 'POST',
                     headers: {
@@ -347,7 +344,6 @@
 
                     if (result.success) {
                         alert('Admin login successful! Redirecting to admin dashboard...');
-                        // Store user info in localStorage for session
                         localStorage.setItem('user', JSON.stringify(result.user));
                         window.location.href = '/admin-dashboard';
                     } else {
@@ -361,7 +357,6 @@
                 console.error('Error:', error);
                 alert('Network error. Please check if the server is running.');
             } finally {
-                // Reset button state
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             }

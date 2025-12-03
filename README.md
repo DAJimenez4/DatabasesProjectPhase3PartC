@@ -84,6 +84,37 @@ You can log in with any of the following pre-configured users:
 *   **Manage Citations:** Create, edit, and delete citations.
 *   **Citation Payment:** Mark citations as paid.
 
+## SQL Injection Demonstration
+
+This project includes a demonstration of SQL injection vulnerabilities and how to prevent them using prepared statements.
+
+### Accessing the Demo
+
+From the main page, click on the SQL Injection links in the navigation bar, or navigate directly to:
+
+| Demo | URL |
+| :--- | :--- |
+| **Vulnerable Version** | [http://localhost:3000/sql-injection-vulnerable](http://localhost:3000/sql-injection-vulnerable) |
+| **Secure Version** | [http://localhost:3000/sql-injection-secure](http://localhost:3000/sql-injection-secure) |
+
+### How to Test
+
+#### Part A: Vulnerable Form
+
+1. Navigate to the **Vulnerable** version
+2. Click on the payload button or enter: `' OR '1'='1`
+3. Click Search - this returns **ALL users** in the database
+
+The vulnerable query uses string concatenation, allowing the attacker's input to become part of the SQL command.
+
+#### Part B: Secure Form
+
+1. Navigate to the **Secure** version
+2. Try the same payload: `' OR '1'='1`
+3. Click Search - this returns **no results**
+
+The secure form uses prepared statements (parameterized queries), which treat user input as data rather than SQL code.
+
 ## Project Structure
 
 *   **`create.sql`**: Database schema definition.
@@ -92,3 +123,5 @@ You can log in with any of the following pre-configured users:
     *   `server.js`: Main application logic.
     *   `init_db.js`: Database initialization script.
 *   **`Databases PM/parking-frontend/`**: Static HTML/CSS/JS frontend files.
+    *   `sqlInjectionVulnerable.html`: SQL injection demo (vulnerable).
+    *   `sqlInjectionSecure.html`: SQL injection demo (secure).

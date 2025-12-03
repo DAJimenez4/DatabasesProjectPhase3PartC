@@ -183,14 +183,14 @@
             <ul class="nav-links">
                 <li><a href="adminLogin.html">Admin Login</a></li>
                 <li><a href="signUp.html">Create Account</a></li>
+                <li><a href="sqlInjectionVulnerable.html">SQL Injection (Vulnerable)</a></li>
+                <li><a href="sqlInjectionSecure.html">SQL Injection (Secure)</a></li>
             </ul>
         </div>
     </header>
 
     <div class="main-content">
         <div class="login-container">
-
-
             <form class="login-form">
                 <h2>Log In</h2>
 
@@ -278,7 +278,7 @@
                     localStorage.setItem('user', JSON.stringify(result.user));
                     window.location.href = '/dashboard';
                 } else {
-                    document.getElementById('uid-error').textContent = result.message; // Display general error
+                    document.getElementById('uid-error').textContent = result.message;
                     document.getElementById('uid-error').style.display = 'block';
                 }
 
